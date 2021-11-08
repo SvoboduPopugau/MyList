@@ -3,9 +3,7 @@
 
 #include<iostream>
 #include<cstdlib>
-#include<stdlib.h>
-#include<stdio.h>
-#include<math.h>
+#include<cstdio>
 #include<cmath>
 #include<ctime>
 using namespace std;
@@ -22,23 +20,23 @@ class MyList
 public:
     MyList();  // Создает нулевой список
 
-    MyList(unsigned len);  // Создает список из len элементов и заполняет его случайными значениями от 0 до 100
+    explicit MyList(unsigned len);  // Создает список из len элементов и заполняет его случайными значениями от 0 до 100
 
     MyList(unsigned len,unsigned short value);  //Создает список из len элементов и заполняет его значением value
 
     MyList(MyList& other);  // Конструктор копирования
 
-    unsigned short get_rand_un_short(int min,int max) const;
+    [[nodiscard]] unsigned short get_rand_un_short(int min,int max) const;
 
-    bool is_empty() const;
+    [[nodiscard]] bool is_empty() const;
 
-    bool is_null() const;
+    [[nodiscard]] bool is_null() const;
 
-    unsigned size() const;
+    [[nodiscard]] unsigned size() const;
 
-    Structure* get_element(unsigned number) const;  // Выдает указатель на элемент по индексу
+    [[nodiscard]] Structure* get_element(unsigned number) const;  // Выдает указатель на элемент по индексу
 
-    unsigned short get_value(unsigned index) const; // Выдает значение элемента по индексу
+    [[nodiscard]] unsigned short get_value(unsigned index) const; // Выдает значение элемента по индексу
 
     void set_value(unsigned short value, unsigned index);  // Устанавливает значение элемента
 
@@ -54,9 +52,9 @@ public:
 
     void resize(int delta);    // Изменение размера контейнера
 
-    Structure *getFirst() const;
+    [[nodiscard]] Structure *getFirst() const;
 
-    Structure *getLast() const;
+    [[nodiscard]] Structure *getLast() const;
 
     MyList& operator = (const MyList &cop);
 

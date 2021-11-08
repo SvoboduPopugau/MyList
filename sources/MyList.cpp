@@ -1,34 +1,33 @@
 #include "MyList.hpp"
 
-MyList::MyList():_len(0),_first(nullptr),_last(nullptr),_correct(false)
+MyList::MyList():_len(0),_first(nullptr), _last(nullptr), _correct(false)
 {
 }
 
-MyList::MyList(unsigned len):_len(len),_correct(true)
+MyList::MyList(unsigned len):_len(len), _correct(true)
 {
     _last = nullptr;
     _first = nullptr;
     Structure* olds = nullptr;
-    for(unsigned i = 0; i<len; i++){
-        Structure* news =  (Structure*) malloc(sizeof (Structure));
-        news ->val=get_rand_un_short(0,100);
-//        cout << news ->val << " ";  // вывод для проверки
-        if((int)len-1 == 0){
-            news ->next = nullptr;
-            news ->past = nullptr;
+    for (unsigned i = 0; i < len; i++){
+        Structure* news =  (Structure*) malloc(sizeof (Structure)); //Проверка на NULL не осуществляется
+        news -> val = get_rand_un_short(0,100);
+        if((int)len - 1 == 0){
+            news -> next = nullptr;
+            news -> past = nullptr;
             _last = news;
             _first = news;
             continue;
         }
-        if(i==0){
+        if(i == 0){
             news ->past = nullptr;
             _first = news;
         }
-        if((i!=0)&&(i!=(len-1))){
+        if((i != 0) && (i != (len-1))){
             news ->past = olds;
             olds ->next = news;
         }
-        if(i==(len-1)){
+        if(i == (len-1)){
             _last = news;
             news ->next = nullptr;
             news ->past = olds;
@@ -38,31 +37,31 @@ MyList::MyList(unsigned len):_len(len),_correct(true)
     }
 }
 
-MyList::MyList(unsigned len, unsigned short value):_len(len),_correct(true)
+MyList::MyList(unsigned len, unsigned short value):_len(len), _correct(true)
 {
     _last = nullptr;
     _first = nullptr;
     Structure* olds = nullptr;
-    for(unsigned i = 0; i<len; i++){
-        Structure* news =  (Structure*) malloc(sizeof (Structure));
-        news ->val=value;
-//        cout << news ->val << " ";  // вывод для проверки
-        if((int)len-1 == 0){
+    for(unsigned i = 0; i < len; i++){
+        Structure* news =  (Structure*) malloc(sizeof (Structure)); //проверка на NULL
+        news ->val = value;
+
+        if((int)len - 1 == 0){
             news ->next = nullptr;
             news ->past = nullptr;
             _last = news;
             _first = news;
             continue;
         }
-        if(i==0){
+        if(i == 0){
             news ->past = nullptr;
             _first = news;
         }
-        if((i!=0)&&(i!=(len-1))){
+        if((i != 0) && (i != (len - 1))){
             news ->past = olds;
             olds ->next = news;
         }
-        if(i==(len-1)){
+        if(i == (len - 1)){
             _last = news;
             news ->next = nullptr;
             news ->past = olds;
@@ -70,34 +69,33 @@ MyList::MyList(unsigned len, unsigned short value):_len(len),_correct(true)
         }
         olds = news;
     }
-
 }
 
-MyList::MyList(MyList &other):_len(other.size()),_correct(true)
+MyList::MyList(MyList &other):_len(other.size()), _correct(true)
 {
     _last = nullptr;
     _first = nullptr;
     Structure* olds = nullptr;
-    for(unsigned i = 0; i<other.size(); i++){
-        Structure* news =  (Structure*) malloc(sizeof (Structure));
-        news ->val=other.get_value(i);
-//        cout << news ->val << " ";  // вывод для проверки
-        if((int)size()-1 == 0){
+    for(unsigned i = 0; i < other.size(); i++){
+        Structure* news =  (Structure*) malloc(sizeof (Structure)); //Проверка на NULL
+        news ->val = other.get_value(i);
+
+        if((int)size() - 1 == 0){
             news ->next = nullptr;
             news ->past = nullptr;
             _last = news;
             _first = news;
             continue;
         }
-        if(i==0){
+        if(i == 0){
             news ->past = nullptr;
             _first = news;
         }
-        if((i!=0)&&(i!=(size()-1))){
+        if((i != 0) && (i != (size() - 1))){
             news ->past = olds;
             olds ->next = news;
         }
-        if(i==(size()-1)){
+        if(i == (size() - 1)){
             _last = news;
             news ->next = nullptr;
             news ->past = olds;
@@ -115,7 +113,7 @@ unsigned short MyList::get_rand_un_short(int min, int max) const
 
 bool MyList::is_empty() const
 {
-    if((_len == 0)&&(_first==nullptr)&&(_last==nullptr)&&(_correct==true))
+    if((_len == 0) && (_first == nullptr) && (_last == nullptr) && _correct)
         return true;
     else
         return false;
@@ -123,7 +121,7 @@ bool MyList::is_empty() const
 
 bool MyList::is_null() const
 {
-    if((_len == 0)&&(_first==nullptr)&&(_last==nullptr)&&(_correct==false))
+    if((_len == 0) && (_first == nullptr) && (_last == nullptr) && !_correct)
         return true;
     else
         return false;
@@ -149,7 +147,7 @@ void MyList::add_element(Structure *other, unsigned index)
     if(index > _len)          // Если указанный индекс больше размер массива добавляем элемент вконец
         add_element(other);
 
-    if((index <= _len)&&(index > 0)){        // Если индекс элемента меньше или равен длине контейнера и не равен 0 добавляем в тело
+    if((index <= _len) && (index > 0)){        // Если индекс элемента меньше или равен длине контейнера и больше 0 добавляем в тело
         Structure* old = get_element(index);
         other ->past = old ->past;
         old ->past ->next = other;
@@ -170,14 +168,14 @@ void MyList::add_element(Structure *other, unsigned index)
 
 void MyList::add_element(unsigned short value, unsigned index)
 {
-    Structure* added = (Structure*) malloc(sizeof (Structure));
+    Structure* added = (Structure*) malloc(sizeof (Structure)); // проверка на NULL
     added ->val = value;
     add_element(added,index);
 }
 
 void MyList::add_element(unsigned short value)
 {
-    Structure* added = (Structure*) malloc(sizeof (Structure));
+    Structure* added = (Structure*) malloc(sizeof (Structure)); // проверка на NULL
     added ->val = value;
     add_element(added);
 }
@@ -185,40 +183,36 @@ void MyList::add_element(unsigned short value)
 void MyList::delete_element(unsigned index)
 {
     Structure* del = get_element(index);
-//    cout << "DELETED "<<index << ":"<< del->val <<endl;
-//    cout << "FIRST "<<":"<< _first ->val <<endl;
-//    cout << "LAST "<<":"<< _last ->val <<endl;
-    if((_first == del)&&(_last != del)){
+
+    if((_first == del) && (_last != del)){
         _first ->next ->past = nullptr;
         _first = _first ->next;
         _len--;
-        free(del);
+        free(del);  //-------------------------------------------------------------------------------------------------
         del = nullptr;
         return;
-//    cout << "NEW FIRST "<<":"<< _first ->val <<endl;
-//    cout << "LAST "<<":"<< _last ->val <<endl;
     }
-    if((_first == del)&&(_last == del)){
+    if((_first == del) && (_last == del)){
         _first = nullptr;
         _last = nullptr;
         _len = 0;
-        free(del);
+        free(del); //-----------------------------------------------------------------------------------------------
         del = nullptr;
         return;
     }
-    if((_first != del)&&(_last == del)){
+    if((_first != del) && (_last == del)){
         _last ->past ->next = nullptr;
         _last = _last ->past;
         _len--;
-        free(del);
+        free(del); //-----------------------------------------------------------------------------------------------
         del = nullptr;
         return;
     }
-    if((_first != del)&&(_last != del)){
+    if((_first != del) && (_last != del)){
         del ->past ->next = del ->next;
         del ->next ->past = del ->past;
         _len--;
-        free(del);
+        free(del); //----------------------------------------------------------------------------------------------
         del = nullptr;
         return;
     }
@@ -227,12 +221,9 @@ void MyList::delete_element(unsigned index)
 void MyList::resize(int delta)
 {
     if(delta >= 0){
-//    List add (delta,0);
-//    _last ->next = add.getFirst();
-//    _last = add.getLast();
         Structure* olds = _last;
         for(unsigned i =0; i <(unsigned)delta; i++){
-            Structure* news =  (Structure*) malloc(sizeof (Structure));
+            Structure* news =  (Structure*) malloc(sizeof (Structure)); // проверка на NULL
             news ->val = 0;
             news ->next = nullptr;
             olds ->next = news;
@@ -244,17 +235,16 @@ void MyList::resize(int delta)
     }
 
     if(delta < 0){
-        for(unsigned i = 0; i<(unsigned)abs(delta); i++){
+        for(unsigned i = 0; i < (unsigned)abs(delta); i++){
             delete_element(size()-1);
         }
-
     }
 
 }
 
 unsigned short MyList::get_value(unsigned index) const
 {
-    return get_element(index)->val;
+    return get_element(index) -> val;
 }
 
 void MyList::set_value(unsigned short value, unsigned index)
@@ -281,7 +271,7 @@ Structure *MyList::getLast() const
     return _last;
 }
 
-MyList &MyList::operator =(const MyList &cop)
+MyList &MyList::operator = (const MyList &cop)
 {
     if(!is_empty()){
         resize(cop.size()-size());
@@ -292,25 +282,25 @@ MyList &MyList::operator =(const MyList &cop)
         _len = cop.size();
         Structure* olds = nullptr;
         for(unsigned i = 0; i<cop.size(); i++){
-            Structure* news =  (Structure*) malloc(sizeof (Structure));
+            Structure* news =  (Structure*) malloc(sizeof (Structure)); // проверка на NULL
             news ->val=cop.get_value(i);
-//            cout << news ->val << " ";  // вывод для проверки
-            if((int)cop.size()-1 == 0){
+
+            if((int)cop.size() - 1 == 0){
                 news ->next = nullptr;
                 news ->past = nullptr;
                 _last = news;
                 _first = news;
                 continue;
             }
-            if(i==0){
+            if(i == 0){
                 news ->past = nullptr;
                 _first = news;
             }
-            if((i!=0)&&(i!=(cop.size()-1))){
+            if((i != 0) && (i != (cop.size() - 1))){
                 news ->past = olds;
                 olds ->next = news;
             }
-            if(i==(cop.size()-1)){
+            if(i == (cop.size() - 1)){
                 _last = news;
                 news ->next = nullptr;
                 news ->past = olds;
@@ -331,11 +321,8 @@ void MyList::print() const
 
 MyList::~MyList()
 {
-//    cout << "Destructer"<< endl;
-    for(int i = _len-1; i >= 0; i--){
-//        cout << "DELETED "<<i << ":"<< get_value(i) <<endl;
+    for(int i = _len - 1; i >= 0; i--){
         free(get_element(i));
-//        delete_element(i);
     }
     _last = nullptr;
     _first =nullptr;
